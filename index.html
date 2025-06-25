@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Industry Nagaland - Official Launch</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Roboto&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container" id="mainContainer">
+    <canvas id="confetti"></canvas>
+    <div class="content">
+      <div id="initialText">
+        <h1>Welcome to the Official Website</h1>
+        <p>Department of Industries & Commerce, Government of Nagaland</p>
+        <button class="button pulse" id="startLaunchBtn">Launch</button>
+      </div>
+
+      <div class="hidden" id="launchMsg">
+        <div class="message" id="line1">🚀 We’re proud to present the newly launched official portal for <strong>Industry & Commerce, Nagaland</strong>.</div>
+        <div class="message" id="line2">Discover government schemes, industrial updates, services, and more — all in one place.</div>
+        <div class="countdown" id="countdownText">Redirecting in 5...</div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      background: linear-gradient(135deg, #082b39, #903232);
+      font-family: 'Roboto', sans-serif;
+      overflow: hidden;
+      color: #fff;
+    }
+
+    body {
+      animation: bgFloat 20s ease-in-out infinite alternate;
+    }
+
+    @keyframes bgFloat {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    .container {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 20px;
+      position: relative;
+      animation: fadeIn 2s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fadeOut {
+      animation: fadeOut 1s ease forwards;
+    }
+
+    @keyframes fadeOut {
+      to { opacity: 0; transform: scale(1.05); }
+    }
+
+    .message {
+      font-size: 1.5rem;
+      max-width: 700px;
+      margin: 1rem auto;
+      opacity: 0;
+      transition: opacity 1s ease;
+      color: #f1f1f1;
+    }
+
+    .visible {
+      opacity: 1;
+    }
+
+    .countdown {
+      font-size: 1.2rem;
+      color: #fefefe;
+      margin-top: 2rem;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .countdown.visible {
+      opacity: 1;
+    }
+
+    .button {
+      margin-top: 2rem;
+      padding: 1rem 2rem;
+      font-size: 1.25rem;
+      background: #903232;
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: transform 0.2s ease-in-out, background 0.3s ease-in-out;
+    }
+
+    .button:hover {
+      transform: scale(1.05);
+      background: #ba3e3e;
+    }
+
+    .pulse {
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255, 0.4); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(255,255,255, 0); }
+      100% { transform: scale(1); }
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    .content {
+      position: relative;
+      z-index: 2;
+    }
+
+    h1 {
+      font-family: 'open sans', sans-serif;
+      font-size: 2.5rem;
+      color: #f1f1f1;
+    }
+
+    p {
+      font-size: 1.25rem;
+      max-width: 600px;
+      margin-top: 1rem;
+      color: #ddd;
+    }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script>
+    const startLaunchBtn = document.getElementById('startLaunchBtn');
+    const launchMsg = document.getElementById('launchMsg');
+    const line1 = document.getElementById('line1');
+    const line2 = document.getElementById('line2');
+    const countdownText = document.getElementById('countdownText');
+    const initialText = document.getElementById('initialText');
+    let drizzleInterval;
+
+    startLaunchBtn.addEventListener('click', () => {
+      initialText.classList.add('fadeOut');
+      setTimeout(() => {
+        initialText.classList.add('hidden');
+        fireConfettiBurst();        // 💥 Initial burst
+        startConfettiDrizzle();     // 🌧 Continuous drizzle
+        launchMsg.classList.remove('hidden');
+        revealLines();
+      }, 1000);
+    });
+
+    function fireConfettiBurst() {
+      const colors = ['#082b39', '#903232', '#ffffff', '#ffff00'];
+      confetti({
+        particleCount: 200,
+        spread: 120,
+        origin: { y: 0.6 },
+        colors: colors,
+      });
+    }
+
+    function startConfettiDrizzle() {
+      const colors = ['#082b39', '#903232', '#ffffff', '#ffff00'];
+      drizzleInterval = setInterval(() => {
+        confetti({
+          particleCount: 2,
+          angle: 60 + Math.random() * 60,
+          spread: 45,
+          origin: { x: Math.random(), y: Math.random() * 0.5 },
+          colors: colors,
+          scalar: 0.75,
+        });
+      }, 250);
+    }
+
+    function stopConfettiDrizzle() {
+      clearInterval(drizzleInterval);
+    }
+
+    function revealLines() {
+      setTimeout(() => {
+        line1.classList.add('visible');
+        setTimeout(() => {
+          line2.classList.add('visible');
+          setTimeout(() => {
+            showCountdown();
+          }, 10000);
+        }, 2500);
+      }, 500);
+    }
+
+    function showCountdown() {
+      countdownText.classList.add('visible');
+      let count = 10;
+      const interval = setInterval(() => {
+        count--;
+        countdownText.textContent = `Redirecting you in ${count}...`;
+        if (count <= 0) {
+          clearInterval(interval);
+          stopConfettiDrizzle();
+          window.location.href = "https://industrynagaland.com/";
+        }
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
